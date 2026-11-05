@@ -502,6 +502,11 @@
         },
         "--json": {
           "type": "boolean"
+        },
+        "--download-media": {
+          "type": "boolean",
+          "default": false,
+          "semantics": "Save note images, video and cover into <output-name>.media next to the JSON. Resource downloads have no artificial delay."
         }
       },
       "requestPacing": {
@@ -510,7 +515,13 @@
         "scope": "Successive captured note-detail and comment API requests"
       },
       "completeness": "Success requires top-level and every reply thread pagination to end. A partial export has ok=false, exit status 1, and completeness.failure in the output.",
-      "example": "xhscli note get --id <NOTE_ID> --output note.json --json"
+      "example": "xhscli note get --id <NOTE_ID> --output note.json --json",
+      "mediaDownload": {
+        "outputDirectory": "<output-name>.media",
+        "pacing": "Direct file transfers without artificial waits",
+        "result": "Per-file relative path, bytes, SHA-256 and failure details in media",
+        "scope": "Note images, video, cover and available live-photo motion resources"
+      }
     }
   },
   "maintenanceContract": {

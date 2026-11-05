@@ -7,6 +7,7 @@ import { Comments } from './comments.mjs';
 import { cachedLink, noteLink, rememberLinks } from './note-links.mjs';
 import { parseNoteUrl } from './note-options.mjs';
 import { checkOutput, writeOutput } from './output.mjs';
+import { downloadMedia } from './media.mjs';
 
 async function evaluate(cdp, fn, ...args) {
   const result = await cdp.call('Runtime.evaluate', {
@@ -202,6 +203,7 @@ async function collect(cdp, url, requestedId) {
 
 export async function noteGet(options) {
   await checkOutput(options.output);
+  if (options.downloadMedia) await checkOutput(options.mediaDirectory);
   await browserStatus();
   const url = options.url || await resolveLink(options.noteId);
   const response = await fetch(endpoint + '/json/new?about:blank', { method: 'PUT', signal: AbortSignal.timeout(5000) });
@@ -218,15 +220,26 @@ export async function noteGet(options) {
     cdp?.close();
   }
   const { noteId, note, comments, waits, feedResponses, error } = result;
-  const complete = comments.complete && !error;
+  const commentsComplete = comments.complete && !error;
+  let media;
+  if (options.downloadMedia) {
+    try {
+      media = await downloadMedia(note, options.mediaDirectory);
+    } catch (error) {
+      media = { requested: true, complete: false, files: [], error: { code: error.code ?? 'MEDIA_DOWNLOAD_FAILED', message: 'Could not prepare the media output directory.' } };
+    }
+  }
+  const complete = commentsComplete && (!media || media.complete);
+  const resultError = error || (media && !media.complete ? failure('MEDIA_DOWNLOAD_INCOMPLETE', 'Some requested media files could not be saved. See media in the JSON output.') : null);
   const document = {
     schemaVersion: 1, capturedAt: new Date().toISOString(), noteId,
     noteUrl: noteLink(noteId, note.xsecToken || new URL(url).searchParams.get('xsec_token')),
     note, comments: comments.serialize(),
+    ...(media ? { media } : {}),
     completeness: {
-      complete, topLevelPaginationEnded: comments.topEnded,
+      complete, ...(media ? { commentsComplete } : {}), topLevelPaginationEnded: comments.topEnded,
       pendingReplyThreads: [...comments.roots].filter(([, root]) => root.hasMore).map(([id]) => id),
-      failure: error ? { code: error.code, message: error.message } : null,
+      failure: resultError ? { code: resultError.code, message: resultError.message } : null,
       scope: 'All comments and replies returned to the current web session at capture time'
     },
     source: { note: 'page.__INITIAL_STATE__.note.noteDetailMap', commentPages: comments.pages, feedResponses },
@@ -238,6 +251,7 @@ export async function noteGet(options) {
   return {
     ok: complete, noteId, output: options.output, complete,
     topLevelComments: document.comments.length, replies: replyCount, requestWaitsMs: waits,
-    ...(error ? { code: error.code, message: error.message } : {})
+    ...(media ? { mediaDirectory: options.mediaDirectory, mediaComplete: media.complete, mediaDownloaded: media.files.filter(file => file.status === 'downloaded').length, mediaFailed: media.files.filter(file => file.status === 'failed').length } : {}),
+    ...(resultError ? { code: resultError.code, message: resultError.message } : {})
   };
 }

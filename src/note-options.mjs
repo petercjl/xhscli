@@ -1,5 +1,5 @@
 import { parseArgs } from 'node:util';
-import { extname, resolve } from 'node:path';
+import { extname, resolve, parse } from 'node:path';
 import { failure } from './browser.mjs';
 import { noteLink } from './note-links.mjs';
 
@@ -31,7 +31,7 @@ export function parseNote(args) {
   try {
     parsed = parseArgs({
       args, tokens: true,
-      options: { id: { type: 'string' }, url: { type: 'string' }, output: { type: 'string' }, json: { type: 'boolean' } }
+      options: { id: { type: 'string' }, url: { type: 'string' }, output: { type: 'string' }, json: { type: 'boolean' }, 'download-media': { type: 'boolean' } }
     });
     if (new Set(parsed.tokens.map(token => token.name)).size !== parsed.tokens.length) throw new Error('Duplicate option');
   } catch (error) { throw failure('INVALID_ARGUMENT', error.message); }
@@ -47,5 +47,10 @@ export function parseNote(args) {
     const noteId = values.id.toLowerCase();
     input = { noteId, url: null };
   }
-  return { ...input, output: resolve(values.output) };
+  const output = resolve(values.output);
+  const { dir, name } = parse(output);
+  return {
+    ...input, output,
+    ...(values['download-media'] ? { downloadMedia: true, mediaDirectory: resolve(dir, name + '.media') } : {})
+  };
 }

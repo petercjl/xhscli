@@ -1,6 +1,6 @@
 ---
 name: xhscli
-description: Use xhscli to check the local Chrome CDP session, open Xiaohongshu, determine the current Xiaohongshu web login state, export keyword search results to Excel, or export full notes with comments and replies to JSON.
+description: Use xhscli to check the local Chrome CDP session, open Xiaohongshu, determine the current Xiaohongshu web login state, export keyword search results to Excel, export full notes with comments and replies to JSON, or download note images and video alongside JSON.
 ---
 
 # 小红书浏览器与登录态
@@ -27,3 +27,10 @@ CLI 复用现有会话。登录、扫码和验证由用户在浏览器内完成�
 命令通过详情页获取笔记原始字段，按顶层评论和回复分页持续采集，后续笔记及评论接口请求随机等待 2000–3000 ms。输出保存笔记、评论树、原始评论页和完整性记录。只在 CLI 的 `complete` 与文件的 `completeness.complete` 均为 `true` 时报告已完成。当存在部分输出时，报告文件路径与失败原因，恢复后选择新路径重试。平台可见范围以当前会话当时的可访问结果为准。
 
 搜索 Excel 中的“笔记链接”保留平台提供的访问参数，可直接作为 `--url` 输入。
+
+
+## 下载笔记素材
+
+用户要求保存图片、视频或素材时，在 `note get` 中增加 `--download-media`。CLI 直接从笔记字段的资源地址下载图片、视频、封面及可用的动态照片视频，保存在 JSON 旁边的同名 `.media` 文件夹。素材下载由 CLI 执行，无额外等待。笔记、搜索与评论接口继续使用各自的随机等待。
+
+根据 `mediaComplete` 和 JSON 中的 `media.files` 报告下载数量、实际目录及失败项。只有请求的评论和素材均完成时，整体 `complete` 才为 true。保存素材未完成时，JSON 与已下载文件保留，使用新输出文件名重试。
