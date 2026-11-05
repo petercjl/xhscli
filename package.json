@@ -1,6 +1,6 @@
 {
   "name": "@petercjl/xhscli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Xiaohongshu browser search, note details and comment export with a portable Agent Skill",
   "type": "module",
   "bin": {

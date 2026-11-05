@@ -674,7 +674,7 @@
     }
   },
   "package": "@petercjl/xhscli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "tool": "xhscli",
   "entry": "src/cli.mjs",
   "skills": [
