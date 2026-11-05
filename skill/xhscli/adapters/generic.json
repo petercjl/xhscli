@@ -1,0 +1,16 @@
+{
+  "schema": "portable-skill-adapter",
+  "platform": "generic",
+  "mappings": [
+    {
+      "capability_id": "xhscli.execute",
+      "status": "implemented",
+      "features": ["argv-execution", "exit-and-json-capture"],
+      "implementation": {
+        "type": "cli",
+        "command": "xhscli",
+        "discovery": ["capabilities --json", "version"]
+      }
+    }
+  ]
+}

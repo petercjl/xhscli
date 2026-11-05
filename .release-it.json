@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "after:bump": "node scripts/sync-version.mjs && npm run check && npm test && npm run test:package"
+  }
+}

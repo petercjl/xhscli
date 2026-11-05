@@ -1,0 +1,47 @@
+{
+  "name": "@petercjl/xhscli",
+  "version": "0.1.0-dev.0",
+  "description": "Xiaohongshu browser search, note details and comment export with a portable Agent Skill",
+  "type": "module",
+  "bin": {
+    "xhscli": "src/cli.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "src",
+    "skill",
+    "capabilities.json",
+    "INSTALL.md",
+    "UPDATE.md",
+    "skill-integrity.json",
+    "scripts"
+  ],
+  "agentPackage": {
+    "kind": "cli-skill"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --test",
+    "postinstall": "node src/install-notice.mjs",
+    "check": "node scripts/verify-package.mjs",
+    "prepack": "node scripts/verify-package.mjs",
+    "version": "node scripts/sync-version.mjs",
+    "test:package": "node scripts/verify-packed.mjs"
+  },
+  "dependencies": {
+    "@excel.js/exceljs": "0.9.0"
+  },
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petercjl/xhscli.git"
+  },
+  "homepage": "https://github.com/petercjl/xhscli#readme",
+  "bugs": {
+    "url": "https://github.com/petercjl/xhscli/issues"
+  }
+}

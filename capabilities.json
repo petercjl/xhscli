@@ -1,0 +1,701 @@
+{
+  "schemaVersion": 1,
+  "requirements": {
+    "node": ">=22",
+    "chromeCdp": "http://127.0.0.1:9223"
+  },
+  "commandContracts": {
+    "version": {
+      "options": {
+        "--json": {
+          "type": "boolean"
+        },
+        "--help": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "none",
+      "result": {
+        "ok": {
+          "field": "ok",
+          "type": "boolean"
+        },
+        "package": {
+          "field": "package",
+          "type": "string"
+        },
+        "version": {
+          "field": "version",
+          "type": "string"
+        }
+      }
+    },
+    "capabilities": {
+      "options": {
+        "--json": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "none",
+      "description": "none"
+    },
+    "doctor": {
+      "options": {
+        "--json": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "read",
+      "description": "local CDP probe"
+    },
+    "browser status": {
+      "options": {
+        "--json": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "read",
+      "description": "local CDP probe"
+    },
+    "browser open": {
+      "options": {
+        "--json": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "local-write",
+      "description": "activate or open Xiaohongshu tab"
+    },
+    "auth status": {
+      "options": {
+        "--json": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "read",
+      "description": "read visible sign-in signals on the Xiaohongshu tab"
+    },
+    "skill source": {
+      "options": {
+        "--agent": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--target-dir": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--skill-directory": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--skill": {
+          "type": "string",
+          "enum": [
+            "xhscli"
+          ]
+        },
+        "--mode": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--version": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--json": {
+          "type": "boolean"
+        },
+        "--help": {
+          "type": "boolean"
+        },
+        "--all": {
+          "type": "boolean",
+          "description": "enumerate all canonical Skill sources; mutually exclusive with --skill"
+        }
+      },
+      "sideEffects": "none",
+      "confirmation": {
+        "required": false,
+        "authority": "caller authorization; explicit selected target for mutation"
+      }
+    },
+    "skill status": {
+      "options": {
+        "--agent": {
+          "type": "string"
+        },
+        "--target-dir": {
+          "type": "string"
+        },
+        "--skill-directory": {
+          "type": "string"
+        },
+        "--skill": {
+          "type": "string",
+          "enum": [
+            "xhscli"
+          ]
+        },
+        "--mode": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--version": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--json": {
+          "type": "boolean"
+        },
+        "--help": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "none",
+      "confirmation": {
+        "required": false,
+        "authority": "caller authorization; explicit selected target for mutation"
+      }
+    },
+    "skill install": {
+      "options": {
+        "--agent": {
+          "type": "string"
+        },
+        "--target-dir": {
+          "type": "string"
+        },
+        "--skill-directory": {
+          "type": "string"
+        },
+        "--skill": {
+          "type": "string",
+          "enum": [
+            "xhscli"
+          ]
+        },
+        "--mode": {
+          "type": "string"
+        },
+        "--version": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "source package version determines Skill bytes"
+        },
+        "--json": {
+          "type": "boolean"
+        },
+        "--help": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "local-write",
+      "confirmation": {
+        "required": false,
+        "authority": "caller authorization; explicit selected target for mutation"
+      }
+    },
+    "skill update": {
+      "options": {
+        "--agent": {
+          "type": "string"
+        },
+        "--target-dir": {
+          "type": "string"
+        },
+        "--skill-directory": {
+          "type": "string"
+        },
+        "--skill": {
+          "type": "string",
+          "enum": [
+            "xhscli"
+          ]
+        },
+        "--mode": {
+          "type": "string"
+        },
+        "--version": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "source package version determines Skill bytes"
+        },
+        "--json": {
+          "type": "boolean"
+        },
+        "--help": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "local-write",
+      "confirmation": {
+        "required": false,
+        "authority": "caller authorization; explicit selected target for mutation"
+      }
+    },
+    "update check": {
+      "options": {
+        "--agent": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--target-dir": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--skill-directory": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--skill": {
+          "type": "string",
+          "enum": [
+            "xhscli"
+          ]
+        },
+        "--mode": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--version": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "accepted legacy option; ignored by this operation"
+        },
+        "--json": {
+          "type": "boolean"
+        },
+        "--help": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "local-write",
+      "confirmation": {
+        "required": false,
+        "authority": "caller authorization; explicit selected target for mutation"
+      },
+      "network": "registry metadata with bounded cache writes"
+    },
+    "update install": {
+      "options": {
+        "--agent": {
+          "type": "string"
+        },
+        "--target-dir": {
+          "type": "string"
+        },
+        "--skill-directory": {
+          "type": "string"
+        },
+        "--skill": {
+          "type": "string",
+          "enum": [
+            "xhscli"
+          ]
+        },
+        "--mode": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "package updates always install physical isolated copies"
+        },
+        "--version": {
+          "type": "string"
+        },
+        "--json": {
+          "type": "boolean"
+        },
+        "--help": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "package-and-skill-update",
+      "confirmation": {
+        "required": false,
+        "authority": "caller authorization; explicit selected target for mutation"
+      }
+    },
+    "update recover": {
+      "options": {
+        "--agent": {
+          "type": "string"
+        },
+        "--target-dir": {
+          "type": "string"
+        },
+        "--skill-directory": {
+          "type": "string"
+        },
+        "--skill": {
+          "type": "string",
+          "enum": [
+            "xhscli"
+          ]
+        },
+        "--mode": {
+          "type": "string",
+          "deprecated": true,
+          "semantics": "package updates always install physical isolated copies"
+        },
+        "--version": {
+          "type": "string"
+        },
+        "--json": {
+          "type": "boolean"
+        },
+        "--help": {
+          "type": "boolean"
+        }
+      },
+      "sideEffects": "package-and-skill-update",
+      "confirmation": {
+        "required": false,
+        "authority": "caller authorization; explicit selected target for mutation"
+      }
+    },
+    "operation status": {
+      "options": {
+        "--json": {
+          "type": "boolean"
+        },
+        "--help": {
+          "type": "boolean"
+        },
+        "--target-dir": {
+          "type": "string"
+        },
+        "--skill-directory": {
+          "type": "string"
+        },
+        "--agent": {
+          "type": "string"
+        },
+        "--skill": {
+          "type": "string",
+          "enum": [
+            "xhscli"
+          ]
+        }
+      },
+      "sideEffects": "none",
+      "description": "read the selected Skill operation and recovery state"
+    },
+    "search": {
+      "description": "Export Xiaohongshu web note-search results to a new Excel workbook.",
+      "sideEffects": "local-write",
+      "options": {
+        "--keyword": {
+          "type": "string",
+          "required": true
+        },
+        "--output": {
+          "type": "string",
+          "required": true,
+          "semantics": "New .xlsx path with an existing parent directory"
+        },
+        "--pages": {
+          "type": "integer",
+          "default": 1,
+          "minimum": 1,
+          "semantics": "Maximum number of pages exported starting from --start-page"
+        },
+        "--start-page": {
+          "type": "integer",
+          "default": 1,
+          "minimum": 1,
+          "semantics": "Earlier pages load sequentially"
+        },
+        "--page-size": {
+          "type": "integer",
+          "enum": [
+            20
+          ],
+          "default": 20
+        },
+        "--sort": {
+          "type": "string",
+          "enum": [
+            "general",
+            "latest",
+            "likes",
+            "comments",
+            "saves"
+          ],
+          "default": "general"
+        },
+        "--note-type": {
+          "type": "string",
+          "enum": [
+            "all",
+            "video",
+            "image"
+          ],
+          "default": "all"
+        },
+        "--published-within": {
+          "type": "string",
+          "enum": [
+            "all",
+            "day",
+            "week",
+            "half-year"
+          ],
+          "default": "all"
+        },
+        "--scope": {
+          "type": "string",
+          "enum": [
+            "all",
+            "viewed",
+            "unviewed",
+            "following"
+          ],
+          "default": "all"
+        },
+        "--distance": {
+          "type": "string",
+          "enum": [
+            "all",
+            "city",
+            "nearby"
+          ],
+          "default": "all"
+        },
+        "--json": {
+          "type": "boolean"
+        }
+      },
+      "requestPacing": {
+        "minWaitMs": 2000,
+        "maxWaitMs": 3000,
+        "scope": "successive search/notes POST requests released by the command"
+      },
+      "example": "xhscli search --keyword 午睡枕 --sort latest --pages 2 --output 午睡枕.xlsx --json"
+    },
+    "note get": {
+      "description": "Export a note and all web-accessible comments and replies to a new JSON file.",
+      "sideEffects": "local-write",
+      "options": {
+        "--id": {
+          "type": "string",
+          "semantics": "24-character note ID. Resolves a current link from the local search cache or open Xiaohongshu tabs, otherwise attempts the ID URL."
+        },
+        "--url": {
+          "type": "string",
+          "semantics": "HTTPS Xiaohongshu note URL or xhslink.com share URL. Exactly one of --id and --url is required."
+        },
+        "--output": {
+          "type": "string",
+          "required": true,
+          "semantics": "New .json file in an existing parent folder."
+        },
+        "--json": {
+          "type": "boolean"
+        }
+      },
+      "requestPacing": {
+        "minWaitMs": 2000,
+        "maxWaitMs": 3000,
+        "scope": "Successive captured note-detail and comment API requests"
+      },
+      "completeness": "Success requires top-level and every reply thread pagination to end. A partial export has ok=false, exit status 1, and completeness.failure in the output.",
+      "example": "xhscli note get --id <NOTE_ID> --output note.json --json"
+    }
+  },
+  "maintenanceContract": {
+    "schemaVersion": 1,
+    "source": {
+      "name": {
+        "field": "skill",
+        "type": "string"
+      },
+      "package": {
+        "field": "package",
+        "type": "string"
+      },
+      "version": {
+        "field": "version",
+        "type": "string"
+      },
+      "path": {
+        "field": "source",
+        "type": "string"
+      }
+    },
+    "status": {
+      "name": {
+        "field": "skill",
+        "type": "string"
+      },
+      "package": {
+        "field": "package",
+        "type": "string"
+      },
+      "version": {
+        "field": "version",
+        "type": "string"
+      },
+      "target": {
+        "field": "destination",
+        "type": "string"
+      },
+      "installed": {
+        "field": "installed",
+        "type": "boolean"
+      },
+      "managed": {
+        "field": "managed",
+        "type": "boolean"
+      },
+      "current": {
+        "field": "current",
+        "type": "boolean"
+      },
+      "edited": {
+        "field": "edited",
+        "type": "string[]"
+      },
+      "verification": {
+        "field": "verification",
+        "type": "object"
+      },
+      "recovery": {
+        "field": "recovery",
+        "type": "object"
+      }
+    },
+    "targetOptions": {
+      "--target-dir": {
+        "kind": "skill-parent"
+      },
+      "--skill-directory": {
+        "kind": "skill-directory"
+      }
+    },
+    "agentEligibility": "valid-name-with-generic-fallback",
+    "hostDiscoveryAuthority": "host",
+    "operation": {
+      "command": "operation status",
+      "recordScope": "selected-skill",
+      "recoveryCommand": "update recover"
+    }
+  },
+  "discoveryContract": {
+    "schemaVersion": 1,
+    "entryPoints": [
+      {
+        "argv": [
+          "--help",
+          "--json"
+        ],
+        "result": "manifest"
+      },
+      {
+        "argv": [
+          "capabilities",
+          "--json"
+        ],
+        "result": "manifest"
+      },
+      {
+        "argv": [
+          "skill",
+          "source",
+          "--json"
+        ],
+        "result": "source"
+      }
+    ],
+    "commandsField": "commandContracts",
+    "structuredHelpAlias": "commands",
+    "version": {
+      "command": "version",
+      "argv": [
+        "version",
+        "--json"
+      ],
+      "fields": {
+        "package": {
+          "field": "package",
+          "type": "string"
+        },
+        "version": {
+          "field": "version",
+          "type": "string"
+        }
+      }
+    },
+    "skillCollection": {
+      "namesField": "skills",
+      "default": "xhscli",
+      "selector": {
+        "option": "--skill",
+        "type": "string"
+      },
+      "enumeration": {
+        "argv": [
+          "skill",
+          "source",
+          "--all",
+          "--json"
+        ],
+        "itemsField": "sources",
+        "completeField": "complete"
+      },
+      "namedSource": [
+        "skill",
+        "source",
+        "--skill",
+        "{skill}",
+        "--json"
+      ]
+    }
+  },
+  "package": "@petercjl/xhscli",
+  "version": "0.1.0-dev.0",
+  "tool": "xhscli",
+  "entry": "src/cli.mjs",
+  "skills": [
+    "xhscli"
+  ],
+  "installationLifecycle": {
+    "agentNeutral": true,
+    "targetRequired": true,
+    "hostRegistrationRequired": true,
+    "installationMode": "copy",
+    "isolatedRuntimeRequired": true,
+    "sharedLinksAllowed": false,
+    "skillRequired": true,
+    "updateRequiresSkillSync": true,
+    "required_components": [
+      "cli",
+      "skill"
+    ],
+    "install": "resolve current host target, discover skill source, install physical runtime and verify receipt",
+    "update": "resolve selected target before npm replacement, preserve edits and backup, reconcile same-version Skill",
+    "verification": "matching CLI and Skill versions, SHA-256 integrity, explicit host discovery verification",
+    "installGuide": "INSTALL.md",
+    "updateGuide": "UPDATE.md"
+  },
+  "automaticUpdates": {
+    "enabledByDefault": true,
+    "intervalHours": 6,
+    "timeoutMs": 1800,
+    "trigger": "ordinary business task entry, source and owned runtimes use their owner",
+    "configuration": "selected target via explicit option or per-package target environment",
+    "disable": "AGENT_PACKAGE_UPDATE_CHECK=0",
+    "recovery": "preserve current package offline; partial update operation record requires inspection",
+    "defaultMode": "notify"
+  }
+}

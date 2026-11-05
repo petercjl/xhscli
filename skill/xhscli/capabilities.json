@@ -1,0 +1,40 @@
+{
+  "schema": "portable-skill-capabilities",
+  "skill": "xhscli",
+  "capabilities": [
+    {
+      "id": "xhscli.execute",
+      "purpose": "Run the local xhscli and interpret its structured result",
+      "required": true,
+      "required_features": [
+        "argv-execution",
+        "exit-and-json-capture"
+      ],
+      "input_fields": [
+        "argv"
+      ],
+      "output_fields": [
+        "exitCode",
+        "json"
+      ],
+      "side_effects": {
+        "external_mutation": false,
+        "may_cost_money": false,
+        "authorization": "An explicit request to open Xiaohongshu permits tab activation or creation. The user completes sign-in and verification in Chrome."
+      },
+      "errors": [
+        "CDP_UNAVAILABLE",
+        "XHS_TAB_MISSING",
+        "PAGE_INSPECTION_FAILED"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0",
+  "scope": "shareable",
+  "target_platforms": [
+    "generic"
+  ],
+  "host_resolution": {
+    "fallback_adapter": "generic"
+  }
+}
