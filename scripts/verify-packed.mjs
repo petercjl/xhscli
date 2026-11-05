@@ -21,8 +21,10 @@ function npmRun(args) {
   assert.equal(result.status, 0, result.stdout + result.stderr);
   return result.stdout;
 }
-const tarballs = JSON.parse(npmRun(['pack', '--ignore-scripts', '--pack-destination', scratch, '--json']));
-npmRun(['install', '--prefix', join(scratch, 'bootstrap'), '--ignore-scripts', '--no-audit', '--no-fund', join(scratch, tarballs[0].filename)]);
+const packed = JSON.parse(npmRun(['pack', '--ignore-scripts', '--pack-destination', scratch, '--json']));
+const tarball = Array.isArray(packed) ? packed[0] : packed[pkg.name];
+assert.equal(typeof tarball?.filename, 'string', 'npm pack did not identify the package tarball');
+npmRun(['install', '--prefix', join(scratch, 'bootstrap'), '--ignore-scripts', '--no-audit', '--no-fund', join(scratch, tarball.filename)]);
 const entry = join(scratch, 'bootstrap', 'node_modules', '@petercjl', 'xhscli', 'src', 'cli.mjs');
 const invoke = (args, expected = 0) => JSON.parse(run(process.execPath, [entry, ...args, '--json'], { expected }));
 assert.equal(invoke(['version']).version, pkg.version);
