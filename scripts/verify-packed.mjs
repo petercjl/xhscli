@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { readFile, writeFile, mkdir, mkdtemp, rename, stat, lstat, realpath } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, mkdtemp, rename, stat, lstat } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { managedNpm } from '../src/package-runtime.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const pkg = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'));
@@ -14,9 +15,9 @@ function run(command, args, { cwd = root, expected = 0 } = {}) {
   assert.equal(result.status, expected, [command, ...args].join(' ') + '\n' + result.stdout + result.stderr);
   return result.stdout;
 }
-const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+const npm = managedNpm();
 function npmRun(args) {
-  const result = spawnSync(npm, args, { cwd: root, env, encoding: 'utf8', timeout: 180000, shell: process.platform === 'win32' });
+  const result = spawnSync(npm.command, [...npm.args, ...args], { cwd: root, env, encoding: 'utf8', timeout: 180000, shell: npm.shell });
   assert.equal(result.status, 0, result.stdout + result.stderr);
   return result.stdout;
 }
@@ -75,7 +76,10 @@ await rename(join(scratch, 'first-agent'), join(scratch, 'first-agent-offline'))
 const version = JSON.parse(run(process.execPath, [secondEntry, 'version', '--json']));
 assert.equal(version.version, pkg.version);
 const source = JSON.parse(run(process.execPath, [secondEntry, 'skill', 'source', '--json']));
-assert(source.source.startsWith(await realpath(second)));
+const actualSource = await stat(source.source);
+const expectedSource = await stat(join(second, '.runtime', 'skill', 'xhscli'));
+assert.equal(actualSource.dev, expectedSource.dev);
+assert.equal(actualSource.ino, expectedSource.ino);
 const existent = join(scratch, 'existing.xlsx');
 await writeFile(existent, 'User-owned file', { flag: 'wx' });
 const result = JSON.parse(run(process.execPath, [secondEntry, 'search', '--keyword', 'fixture', '--output', existent, '--json'], { expected: 1 }));
