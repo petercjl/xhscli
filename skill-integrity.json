@@ -1,10 +1,10 @@
 {
-  "version": "0.1.0-dev.0",
+  "version": "0.1.0",
   "files": {
     "skill/xhscli/SKILL.md": "ad81c0cbb2115ac231f1766afe2695cc8a71d7e69b1326a92957ddc784bfbf82",
     "skill/xhscli/adapters/generic.json": "48d4fbebf76670806b581490dae93dede2f277ce6f83cbc5de475209664f8910",
     "skill/xhscli/agents/openai.yaml": "54a0af6f1aef7da1791bc0f51bb1e7edf5a41b678cb394bfb30001ff33b71927",
     "skill/xhscli/capabilities.json": "4f030397afefad2492ee4c908490f84ae22de877a821504a19f2e2840563c03f",
-    "skill/xhscli/package.json": "562ccc58fdb1afbf001ffc7b02a05243110a12ee2519f0966337b3843af69df2"
+    "skill/xhscli/package.json": "8a7b8823570b41b1fe8b05a95b16fca4e4c6d4620f97b3bd5a5be040ff3555d8"
   }
 }
